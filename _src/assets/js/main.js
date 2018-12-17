@@ -7,13 +7,27 @@ const resultsListEl = document.querySelector('.results__list');
 submitBtnEl.addEventListener('click', handleSearchBtn);
 
 function fetchData() {
-    const baseApi = 'http://api.tvmaze.com/search/shows?q=';
-    const searchValue = searchBarEl.value;
-    const uri = baseApi + searchValue;
-    console.log(uri);
+  const baseApi = 'http://api.tvmaze.com/search/shows?q=';
+  const searchValue = searchBarEl.value;
+  const uri = baseApi + searchValue;
+  fetch(uri)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      //let resultsContent = '';
+      for (let i = 0; i < data.length; i++) {
+        const showName = data[i].show.name;
+        if (data[i].show.image === null) {
+          // const showImage = data[i].show.image.medium;
+          resultsListEl.innerHTML += `<li><img src="https://via.placeholder.com/210x295/cccccc/666666/?text=TV" alt=""><h2>${showName}</h2></li>`;
+        } else {
+          resultsListEl.innerHTML += `<li><img src="${data[i].show.image.medium}" alt=""><h2>${showName}</h2></li>`;
+        }
+      }
+    });
 }
 
 function handleSearchBtn(event) {
-    event.preventDefault();
-    fetchData();
+  event.preventDefault();
+  fetchData();
 }
