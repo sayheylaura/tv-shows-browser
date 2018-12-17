@@ -6,7 +6,14 @@ const resultsListEl = document.querySelector('.results__list');
 
 submitBtnEl.addEventListener('click', handleSearchBtn);
 
+function fetchData() {
+    const baseApi = 'http://api.tvmaze.com/search/shows?q=';
+    const searchValue = searchBarEl.value;
+    const uri = baseApi + searchValue;
+    console.log(uri);
+}
+
 function handleSearchBtn(event) {
     event.preventDefault();
-    console.log('hola');
+    fetchData();
 }
