@@ -35,9 +35,9 @@ function fetchData() {
 
         // If there's no image available
         if (data[i].show.image === null) {
-          resultsContent += `<li class="results__item"><img src="https://via.placeholder.com/210x295/cccccc/666666/?text=TV" alt=""><h2>${showName}</h2></li>`;
+          resultsContent += `<li class="results__item results__item${[i+1]}"><img src="https://via.placeholder.com/210x295/cccccc/666666/?text=TV" alt=""><h2>${showName}</h2></li>`;
         } else { // If there's an image available
-          resultsContent += `<li class="results__item"><img src="${data[i].show.image.medium}" alt=""><h2>${showName}</h2></li>`;
+          resultsContent += `<li class="results__item results__item${[i+1]}"><img src="${data[i].show.image.medium}" alt=""><h2>${showName}</h2></li>`;
         }
       }
       resultsListEl.innerHTML = resultsContent;
@@ -57,6 +57,10 @@ function collectShowItems() {
 }
 
 // When a show is clicked
-function handleFavoriteShow() {
+function handleFavoriteShow(event) {
+  // We store the clicked show in a constant
+  const currentShow = event.currentTarget;
 
+  // Background-color changes and a border is added
+  currentShow.classList.toggle('results__item--favorite');
 }

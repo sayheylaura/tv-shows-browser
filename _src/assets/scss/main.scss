@@ -2,6 +2,10 @@
 @import 'pages/search-form';
 @import 'pages/search-results';
 
+* {
+	box-sizing: border-box;
+}
+
 body {
 	margin: 0;
 }
