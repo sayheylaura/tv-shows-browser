@@ -1,1 +1,1 @@
-body {margin: 0;}
+.results__item {background-color: pink;}.results__item--favorite {border: 3px solid #b4147f;background-color: purple;}* {-webkit-box-sizing: border-box;box-sizing: border-box;}body {margin: 0;}
