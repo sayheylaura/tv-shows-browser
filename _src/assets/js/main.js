@@ -7,10 +7,6 @@ const resultsListEl = document.querySelector('.results__list');
 
 // Variables used in different scopes, therefore must be global
 let searchValue = '';
-let savedData = '';
-let showsIDs = [];
-
-let resultsItems = '';
 
 // Add listener to search button
 submitBtnEl.addEventListener('click', handleSearchBtn);
@@ -36,19 +32,18 @@ function fetchData() {
   fetch(uri)
     .then(response => response.json())
     .then(data => {
-      savedData = data;
       let resultsContent = '';
 
       // data is an array of objects. Each object contains a TV show's info. For each of these objects:
-      for (let i = 0; i < savedData.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         // Store the show's name in a constant
-        const showName = savedData[i].show.name;
+        const showName = data[i].show.name;
 
-        // Store the sho's image in a constant
-        const showImage = savedData[i].show.image;
+        // Store the show's image in a constant
+        const showImage = data[i].show.image;
 
         // Store the show's id in a constant
-        const showID = savedData[i].show.id;
+        const showID = data[i].show.id;
 
         // If there's no image available
         if (!showImage) {
@@ -61,30 +56,27 @@ function fetchData() {
       resultsListEl.innerHTML = resultsContent;
 
       // After the list of the shows matching the user's search appears, the user can click on each show to add it to favorites
-      // First we collect the items created, they are stored in an array and we add a listener to them. Also, if a show's id is in localStorage, that means it's a favorite show: add the favorite class to the item created
+      // First we collect the items created, they are stored in an array and we add a listener to them. Also, if a show's id is in localStorage, that means it's a favorite show: add the favorite class to the item created, whatever the user's search is
       collectShowItems();
     });
 }
 
-// Function to collect the items created after the user's search and add a listener to them. Also, if the item's id is in localStorage, it has to appear as a favorite show: add the favorite class to that item every time the user inserts the same search
+// Function to collect the items created after the user's search and add a listener to them. Also, if the item's id is in localStorage, it has to appear as a favorite show: add the favorite class to that item every time it appears in a user's search
 function collectShowItems() {
   // Create an array with all the items
-  resultsItems = resultsListEl.querySelectorAll('.results__item');
-
-  // Get localStorage info
-  //const savedShows = JSON.parse(localStorage.getItem(`${searchValue}`));
-  
+  const resultsItems = resultsListEl.querySelectorAll('.results__item');
 
   // For each item in the array
   for (const item of resultsItems) {
     // Add a listener
     item.addEventListener('click', handleFavoriteShow);
-    // Get the item's id
+    // Get item's id
     const itemID = parseInt(item.getAttribute('id'));
+    // Get localStorage info for that item (if that item is storaged, localStorage contains the item's id; else it's null)
     const savedShow = localStorage.getItem(`${itemID}`);
     // If the item's id is in localStorage
     if (!!savedShow && savedShow.includes(itemID)) {
-      // Add the favorite class to the item
+      // Add favorite class to item
       item.classList.add('results__item--favorite');
     }
   }
@@ -92,45 +84,20 @@ function collectShowItems() {
 
 // When a show is clicked
 function handleFavoriteShow(event) {
-  // We store the clicked show in a constant
+  // Store the clicked show in a constant
   const currentShow = event.currentTarget;
-
-  // Background-color changes and a border is added. If user clicks again to unfav the show, the item's styles return to default
-  currentShow.classList.toggle('results__item--favorite');
-
-  // Create an array with favorite shows
-  const favoriteShows = resultsListEl.querySelectorAll('.results__item--favorite');
-  console.log(favoriteShows);
-
-  // Store the favorite show's ids in another array
-  //showsIDs = [];
+  // Store the clicked show's id in a constant
   const currentShowID = parseInt(currentShow.getAttribute('id'));
 
+  // Styles for clicked show are changed. If user clicks again to unfav the show, the item's styles return to default
+  currentShow.classList.toggle('results__item--favorite');
+
+  // If the clicked show is added to favorites
   if (!!currentShow.classList.contains('results__item--favorite')) {
-    
+    // Store its id in localStorage
     localStorage.setItem(`${currentShowID}`, `${currentShowID}`);
-    /* for (const item of resultsItems) {
-      const currentShowID = parseInt(item.getAttribute('id'));
-      //showsIDs.push(currentShowID);
-      localStorage.setItem(`${currentShowID}`, `${currentShowID}`);
-    } */
-  } else if (!currentShow.classList.contains('results__item--favorite')) {
+  } else if (!currentShow.classList.contains('results__item--favorite')) { //If the clicked show is removed from favorites
+    // Remove its id from localStorage
     localStorage.removeItem(`${currentShowID}`);
-    /* for (const item of resultsItems) {
-      const currentItemID = parseInt(item.getAttribute('id'));
-      localStorage.removeItem(`${currentItemID}`);
-    } */
   }
-
-
-
-  /* for (const show of favoriteShows) {
-    const currentShowID = parseInt(show.getAttribute('id'));
-    //showsIDs.push(currentShowID);
-    localStorage.setItem(`${currentShowID}`, `${currentShowID}`);
-  } */
-  //console.log(showsIDs);
-
-  // Store the id's array in localStorage
-  //localStorage.setItem(`${searchValue}`, JSON.stringify(showsIDs));
 }
