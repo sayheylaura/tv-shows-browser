@@ -11,9 +11,9 @@ submitBtnEl.addEventListener('click', handleSearchBtn);
 
 // When button is clicked
 function handleSearchBtn(event) {
-  // Prevent default behavior (input type submit in a form refreshes the page)
+  // Prevent default behavior (input type submit in a form refreshes the page because tries to send info to backend)
   event.preventDefault();
-  // API request 
+  // API request
   fetchData();
 }
 
@@ -32,6 +32,7 @@ function fetchData() {
     .then(data => {
       savedData = data;
       let resultsContent = '';
+
       // data is an array of objects. Each object contains a TV show's info. For each of these objects:
       for (let i = 0; i < savedData.length; i++) {
         // Store the show's name in a constant
@@ -41,38 +42,41 @@ function fetchData() {
         const showID = savedData[i].show.id;
 
         // If there's no image available
-        if (savedData[i].show.image === null) {
-          resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"><img src="https://via.placeholder.com/210x295/cccccc/666666/?text=TV" alt=""><h2>${showName}</h2></li>`;
+        if (!savedData[i].show.image) {
+          resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"> <img src="https://via.placeholder.com/210x295/cccccc/666666/?text=TV" alt=""> <h2>${showName}</h2></li>`;
         } else { // If there's an image available
-          resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"><img src="${savedData[i].show.image.medium}" alt=""><h2>${showName}</h2></li>`;
+          resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"> <img src="${savedData[i].show.image.medium}" alt=""> <h2>${showName}</h2></li>`;
         }
-
-
       }
       // Paint results in html
       resultsListEl.innerHTML = resultsContent;
 
       // After the list of the shows matching the user's search appears, the user can click on each show to add it to favorites
-      // First we collect the items created, they are stored in an array and we add a listener to them
+      // First we collect the items created, they are stored in an array and we add a listener to them. Also, if a show's id is in localStorage, that means it's a favorite show: add the favorite class to the item created
       collectShowItems();
     });
 }
 
-// Function to collect the items created after the user's search and add a listener to them
+// Function to collect the items created after the user's search and add a listener to them. Also, if the item's id is in localStorage, it has to appear as a favorite show: add the favorite class to that item every time the user inserts the same search
 function collectShowItems() {
+  // Create an array with all the items
   const resultsItems = resultsListEl.querySelectorAll('.results__item');
-  for (const item of resultsItems) {
-    item.addEventListener('click', handleFavoriteShow);
-  }
+
+  // Get localStorage info
   const savedShows = JSON.parse(localStorage.getItem('showsIDs'));
-  console.log(savedShows);
-  for (let i = 0; i < resultsItems.length; i++) {
-    const itemID = parseInt(resultsItems[i].getAttribute('id'));
+
+  // For each item in the array
+  for (const item of resultsItems) {
+    // Add a listener
+    item.addEventListener('click', handleFavoriteShow);
+    // Get the item's id
+    const itemID = parseInt(item.getAttribute('id'));
+    // If the item's id is in localStorage
     if (savedShows.includes(itemID)) {
-      resultsItems[i].setAttribute('class', 'results__item--favorite');
+      // Add the favorite class to the item
+      item.classList.add('results__item--favorite');
     }
   }
-
 }
 
 // When a show is clicked
@@ -80,7 +84,7 @@ function handleFavoriteShow(event) {
   // We store the clicked show in a constant
   const currentShow = event.currentTarget;
 
-  // Background-color changes and a border is added
+  // Background-color changes and a border is added. If user clicks again to unfav the show, the item's styles return to default
   currentShow.classList.toggle('results__item--favorite');
 
   // Create an array with favorite shows
