@@ -1,32 +1,43 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
     
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Buscador de series</title>
-        <link rel="icon" href="favicon.png" />
+        <title>TV shows browser</title>
+        <link rel="icon" href="favicon-32x32.png" />
+        <link href="https://fonts.googleapis.com/css?family=Dosis:400,500,600,700|Major+Mono+Display|Questrial"
+        rel="stylesheet">
         <link rel="stylesheet" href="assets/css/main.css">
     </head>
     
     <body>
-        <main class="app">
-             <h1 class="main-title">Buscador de series</h1>
+        <header class="header"> <a href="index.html" class="header__container">
+    <div class="logo__container">
+      <img src="assets/images/tv-show.png" alt="Site logo" class="logo__image">
+    </div>
 
+    <h1 class="main-title">TV shows browser</h1>
+  </a>
+
+        </header>
+        <main class="app">
             <section class="app__search-form">
                 <form action="" class="search-form">
-                    <label for="search-bar" class="search-bar__label">Busca una serie</label>
-                    <input type="text" name="search-bar" id="search-bar"
-                    class="search-bar" placeholder="Ex: Game of Thrones">
-                    <input type="submit" value="Buscar" class="submit-btn">
+                    <div class="search-bar__container">
+                        <label for="search-bar" class="search-bar__label">Enter a TV show's name</label>
+                        <input type="text" name="search-bar" id="search-bar"
+                        class="search-bar__input" placeholder="Ex: Game of Thrones">
+                    </div>
+                    <input type="submit" value="Go!" class="submit-btn">
                 </form>
             </section>
             <section class="app__search-results">
                 <ul class="results__list"></ul>
             </section>
         </main>
-        <script src="assets/js/main.js"></script>
+        <script type="text/javascript" src="assets/js/main.js"></script>
     </body>
 
 </html>
