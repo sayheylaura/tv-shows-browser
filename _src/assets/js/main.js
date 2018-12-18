@@ -1,12 +1,16 @@
 'use strict';
 
+// HTML elements
 const searchBarEl = document.querySelector('.search-bar');
 const submitBtnEl = document.querySelector('.submit-btn');
 const resultsListEl = document.querySelector('.results__list');
 
+// Variables used in different scopes, therefore must be global
+let searchValue = '';
 let savedData = '';
 let showsIDs = [];
 
+// Add listener to search button
 submitBtnEl.addEventListener('click', handleSearchBtn);
 
 // When button is clicked
@@ -17,12 +21,12 @@ function handleSearchBtn(event) {
   fetchData();
 }
 
-// Function of API request
+// API request function
 function fetchData() {
   // Store in a constant the base API with search query parameter
   const baseApi = 'http://api.tvmaze.com/search/shows?q=';
   // Info in the search query parameter must be the user's search
-  const searchValue = searchBarEl.value;
+  searchValue = searchBarEl.value;
   // URI for API request is composed of base API and the user's search
   const uri = baseApi + searchValue;
 
@@ -38,17 +42,20 @@ function fetchData() {
         // Store the show's name in a constant
         const showName = savedData[i].show.name;
 
+        // Store the sho's image in a constant
+        const showImage = savedData[i].show.image;
+
         // Store the show's id in a constant
         const showID = savedData[i].show.id;
 
         // If there's no image available
-        if (!savedData[i].show.image) {
+        if (!showImage) {
           resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"> <img src="https://via.placeholder.com/210x295/cccccc/666666/?text=TV" alt=""> <h2>${showName}</h2></li>`;
         } else { // If there's an image available
-          resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"> <img src="${savedData[i].show.image.medium}" alt=""> <h2>${showName}</h2></li>`;
+          resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"> <img src="${showImage.medium}" alt=""> <h2>${showName}</h2></li>`;
         }
       }
-      // Paint results in html
+      // Paint results in HTML
       resultsListEl.innerHTML = resultsContent;
 
       // After the list of the shows matching the user's search appears, the user can click on each show to add it to favorites
@@ -63,7 +70,7 @@ function collectShowItems() {
   const resultsItems = resultsListEl.querySelectorAll('.results__item');
 
   // Get localStorage info
-  const savedShows = JSON.parse(localStorage.getItem('showsIDs'));
+  const savedShows = JSON.parse(localStorage.getItem(`${searchValue}`));
 
   // For each item in the array
   for (const item of resultsItems) {
@@ -72,7 +79,7 @@ function collectShowItems() {
     // Get the item's id
     const itemID = parseInt(item.getAttribute('id'));
     // If the item's id is in localStorage
-    if (savedShows.includes(itemID)) {
+    if (!!savedShows && savedShows.includes(itemID)) {
       // Add the favorite class to the item
       item.classList.add('results__item--favorite');
     }
@@ -100,5 +107,5 @@ function handleFavoriteShow(event) {
   console.log(showsIDs);
 
   // Store the id's array in localStorage
-  localStorage.setItem('showsIDs', JSON.stringify(showsIDs));
+  localStorage.setItem(`${searchValue}`, JSON.stringify(showsIDs));
 }
