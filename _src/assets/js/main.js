@@ -1,7 +1,7 @@
 'use strict';
 
 // HTML elements
-const searchBarEl = document.querySelector('.search-bar');
+const searchBarEl = document.querySelector('.search-bar__input');
 const submitBtnEl = document.querySelector('.submit-btn');
 const resultsListEl = document.querySelector('.results__list');
 
