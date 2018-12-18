@@ -46,6 +46,8 @@ function fetchData() {
         } else { // If there's an image available
           resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"><img src="${savedData[i].show.image.medium}" alt=""><h2>${showName}</h2></li>`;
         }
+
+
       }
       // Paint results in html
       resultsListEl.innerHTML = resultsContent;
@@ -62,6 +64,15 @@ function collectShowItems() {
   for (const item of resultsItems) {
     item.addEventListener('click', handleFavoriteShow);
   }
+  const savedShows = JSON.parse(localStorage.getItem('showsIDs'));
+  console.log(savedShows);
+  for (let i = 0; i < resultsItems.length; i++) {
+    const itemID = parseInt(resultsItems[i].getAttribute('id'));
+    if (savedShows.includes(itemID)) {
+      resultsItems[i].setAttribute('class', 'results__item--favorite');
+    }
+  }
+
 }
 
 // When a show is clicked
@@ -83,7 +94,7 @@ function handleFavoriteShow(event) {
     showsIDs.push(currentShowID);
   }
   console.log(showsIDs);
-  
+
   // Store the id's array in localStorage
   localStorage.setItem('showsIDs', JSON.stringify(showsIDs));
 }
