@@ -58,6 +58,9 @@ function fetchData() {
       // After the list of the shows matching the user's search appears, the user can click on each show to add it to favorites
       // First we collect the items created, they are stored in an array and we add a listener to them. Also, if a show's id is in localStorage, that means it's a favorite show: add the favorite class to the item created, whatever the user's search is
       collectShowItems();
+
+      // Finally, empty input's value, so that the user won't have to do it in next search
+      searchBarEl.value = '';
     });
 }
 
@@ -71,9 +74,9 @@ function collectShowItems() {
     // Add a listener
     item.addEventListener('click', handleFavoriteShow);
     // Get item's id
-    const itemID = parseInt(item.getAttribute('id'));
+    const itemID = item.getAttribute('id');
     // Get localStorage info for that item (if that item is storaged, localStorage contains the item's id; else it's null)
-    const savedShow = localStorage.getItem(`${itemID}`);
+    const savedShow = localStorage.getItem(itemID);
     // If the item's id is in localStorage
     if (!!savedShow && savedShow.includes(itemID)) {
       // Add favorite class to item
@@ -87,7 +90,7 @@ function handleFavoriteShow(event) {
   // Store the clicked show in a constant
   const currentShow = event.currentTarget;
   // Store the clicked show's id in a constant
-  const currentShowID = parseInt(currentShow.getAttribute('id'));
+  const currentShowID = currentShow.getAttribute('id');
 
   // Styles for clicked show are changed. If user clicks again to unfav the show, the item's styles return to default
   currentShow.classList.toggle('results__item--favorite');
@@ -95,9 +98,9 @@ function handleFavoriteShow(event) {
   // If the clicked show is added to favorites
   if (!!currentShow.classList.contains('results__item--favorite')) {
     // Store its id in localStorage
-    localStorage.setItem(`${currentShowID}`, `${currentShowID}`);
+    localStorage.setItem(currentShowID, currentShowID);
   } else if (!currentShow.classList.contains('results__item--favorite')) { //If the clicked show is removed from favorites
     // Remove its id from localStorage
-    localStorage.removeItem(`${currentShowID}`);
+    localStorage.removeItem(currentShowID);
   }
 }
