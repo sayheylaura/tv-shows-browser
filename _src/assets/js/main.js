@@ -47,9 +47,9 @@ function fetchData() {
 
         // If there's no image available
         if (!showImage) {
-          resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"> <img src="https://via.placeholder.com/210x295/cccccc/666666/?text=TV" alt=""> <h2>${showName}</h2></li>`;
+          resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"> <div class="item__image-container"> <img src="https://via.placeholder.com/210x295/cccccc/666666/?text=TV" alt="Show image" class="item__image"></div> <h2 class="item__title">${showName}</h2></li>`;
         } else { // If there's an image available
-          resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"> <img src="${showImage.medium}" alt=""> <h2>${showName}</h2></li>`;
+          resultsContent += `<li class="results__item results__item${[i + 1]}" id="${showID}"> <div class="item__image-container"> <img src="${showImage.medium}" alt="Show image" class="item__image"></div> <h2 class="item__title">${showName}</h2></li>`;
         }
       }
       // Paint results in HTML

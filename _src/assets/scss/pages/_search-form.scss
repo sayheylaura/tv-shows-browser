@@ -1,43 +1,44 @@
 .app__search-form {
-    width: 100%;
-    padding: 20px;
+  width: 100%;
+  padding: 20px;
 }
 
 .search-form {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .search-bar__container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .search-bar__label {
-    font-weight: $font-weight-semibold;
+  font-weight: $font-weight-semibold;
 }
 
 .search-bar__input {
-    width: 200px;
-    padding: 5px 5px 5px 0;
-    border: none;
-    border-bottom: 1px solid grey;
-    font-family: $font-family-secondary;
-    &:focus {
-        outline: none;
-        border-bottom: 2px solid $color-midtone;
-    }
+  width: 200px;
+  padding: 5px 5px 5px 0;
+  border: none;
+  border-bottom: 1px solid grey;
+  font-family: $font-family-secondary;
+
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid $color-light-midtone;
+  }
 }
 
 .submit-btn {
-    width: 50px;
-    margin-left: 20px;
-    padding: 5px;
-    border: none;
-    border-radius: 10px;
-    background-color: $color-midtone;
-    color: $color-light;
-    font-weight: $font-weight-semibold;
-    align-self: flex-end;
-    cursor: pointer;
+  width: 50px;
+  margin-left: 20px;
+  padding: 5px;
+  border: none;
+  border-radius: 10px;
+  background-color: $color-midtone;
+  color: $color-light;
+  font-weight: $font-weight-semibold;
+  align-self: flex-end;
+  cursor: pointer;
 }
