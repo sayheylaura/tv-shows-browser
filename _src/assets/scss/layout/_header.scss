@@ -1,5 +1,6 @@
 .header {
     width: 100%;
+    background-color: $color-dark;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,4 +18,6 @@
 
 .main-title {
     margin: 0 0 0 20px;
+    font-family: $font-family-title;
+    color: $color-light;
 }
