@@ -10,6 +10,8 @@ let searchValue = '';
 let savedData = '';
 let showsIDs = [];
 
+let resultsItems = '';
+
 // Add listener to search button
 submitBtnEl.addEventListener('click', handleSearchBtn);
 
@@ -67,10 +69,11 @@ function fetchData() {
 // Function to collect the items created after the user's search and add a listener to them. Also, if the item's id is in localStorage, it has to appear as a favorite show: add the favorite class to that item every time the user inserts the same search
 function collectShowItems() {
   // Create an array with all the items
-  const resultsItems = resultsListEl.querySelectorAll('.results__item');
+  resultsItems = resultsListEl.querySelectorAll('.results__item');
 
   // Get localStorage info
-  const savedShows = JSON.parse(localStorage.getItem(`${searchValue}`));
+  //const savedShows = JSON.parse(localStorage.getItem(`${searchValue}`));
+  
 
   // For each item in the array
   for (const item of resultsItems) {
@@ -78,8 +81,9 @@ function collectShowItems() {
     item.addEventListener('click', handleFavoriteShow);
     // Get the item's id
     const itemID = parseInt(item.getAttribute('id'));
+    const savedShow = localStorage.getItem(`${itemID}`);
     // If the item's id is in localStorage
-    if (!!savedShows && savedShows.includes(itemID)) {
+    if (!!savedShow && savedShow.includes(itemID)) {
       // Add the favorite class to the item
       item.classList.add('results__item--favorite');
     }
@@ -99,13 +103,34 @@ function handleFavoriteShow(event) {
   console.log(favoriteShows);
 
   // Store the favorite show's ids in another array
-  showsIDs = [];
-  for (const show of favoriteShows) {
-    const currentShowID = parseInt(show.getAttribute('id'));
-    showsIDs.push(currentShowID);
+  //showsIDs = [];
+  const currentShowID = parseInt(currentShow.getAttribute('id'));
+
+  if (!!currentShow.classList.contains('results__item--favorite')) {
+    
+    localStorage.setItem(`${currentShowID}`, `${currentShowID}`);
+    /* for (const item of resultsItems) {
+      const currentShowID = parseInt(item.getAttribute('id'));
+      //showsIDs.push(currentShowID);
+      localStorage.setItem(`${currentShowID}`, `${currentShowID}`);
+    } */
+  } else if (!currentShow.classList.contains('results__item--favorite')) {
+    localStorage.removeItem(`${currentShowID}`);
+    /* for (const item of resultsItems) {
+      const currentItemID = parseInt(item.getAttribute('id'));
+      localStorage.removeItem(`${currentItemID}`);
+    } */
   }
-  console.log(showsIDs);
+
+
+
+  /* for (const show of favoriteShows) {
+    const currentShowID = parseInt(show.getAttribute('id'));
+    //showsIDs.push(currentShowID);
+    localStorage.setItem(`${currentShowID}`, `${currentShowID}`);
+  } */
+  //console.log(showsIDs);
 
   // Store the id's array in localStorage
-  localStorage.setItem(`${searchValue}`, JSON.stringify(showsIDs));
+  //localStorage.setItem(`${searchValue}`, JSON.stringify(showsIDs));
 }
