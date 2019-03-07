@@ -1,4 +1,4 @@
-# TV shows browser: search your favorite TV shows
+# TV shows browser
 
 This is a final evaluation exercise for the second sprint in [Adalab](https://adalab.es/). The main goal of this exercise was to self-assess my knowledge and skills in basic JavaScript after two weeks learning this language.
 
